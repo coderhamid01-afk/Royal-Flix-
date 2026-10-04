@@ -1,0 +1,6 @@
+{
+  "name": "Royal Flix",
+  "description": "A production-ready cinematic movie streaming application with a dark Netflix-inspired theme.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

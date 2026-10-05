@@ -10,19 +10,16 @@ import retrofit2.http.Query
 interface TmdbService {
     @GET("trending/movie/day")
     suspend fun getTrendingMovies(
-        @Query("api_key") apiKey: String,
         @Query("page") page: Int = 1
     ): MovieResponse
 
     @GET("movie/top_rated")
     suspend fun getTopRatedMovies(
-        @Query("api_key") apiKey: String,
         @Query("page") page: Int = 1
     ): MovieResponse
 
     @GET("discover/movie")
     suspend fun discoverMovies(
-        @Query("api_key") apiKey: String,
         @Query("page") page: Int = 1,
         @Query("primary_release_date.lte") releasedBefore: String? = null,
         @Query("release_date.lte") releasedBeforeSecondary: String? = null,
@@ -34,19 +31,16 @@ interface TmdbService {
 
     @GET("movie/{movie_id}")
     suspend fun getMovieDetails(
-        @Path("movie_id") movieId: Int,
-        @Query("api_key") apiKey: String
+        @Path("movie_id") movieId: Int
     ): Movie
 
     @GET("movie/{movie_id}/credits")
     suspend fun getMovieCredits(
-        @Path("movie_id") movieId: Int,
-        @Query("api_key") apiKey: String
+        @Path("movie_id") movieId: Int
     ): CreditsResponse
 
     @GET("search/movie")
     suspend fun searchMovies(
-        @Query("query") query: String,
-        @Query("api_key") apiKey: String
+        @Query("query") query: String
     ): MovieResponse
 }

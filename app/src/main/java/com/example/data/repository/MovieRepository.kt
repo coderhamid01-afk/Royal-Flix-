@@ -14,13 +14,11 @@ import java.util.Locale
 class MovieRepository(
     private val tmdbService: TmdbService
 ) {
-    private val apiKey = BuildConfig.TMDB_API_KEY
     private val currentDate: String
         get() = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 
     fun getTrendingMovies(page: Int = 1): Flow<List<Movie>> = flow {
         emit(tmdbService.discoverMovies(
-            apiKey = apiKey,
             page = page,
             releasedBefore = currentDate,
             releasedBeforeSecondary = currentDate,
@@ -31,7 +29,6 @@ class MovieRepository(
 
     fun getTopRatedMovies(page: Int = 1): Flow<List<Movie>> = flow {
         emit(tmdbService.discoverMovies(
-            apiKey = apiKey,
             page = page,
             releasedBefore = currentDate,
             releasedBeforeSecondary = currentDate,
@@ -42,7 +39,6 @@ class MovieRepository(
 
     fun getBollywoodMovies(page: Int = 1): Flow<List<Movie>> = flow {
         emit(tmdbService.discoverMovies(
-            apiKey = apiKey,
             page = page,
             releasedBefore = currentDate,
             releasedBeforeSecondary = currentDate,
@@ -54,7 +50,6 @@ class MovieRepository(
 
     fun getHollywoodMovies(page: Int = 1): Flow<List<Movie>> = flow {
         emit(tmdbService.discoverMovies(
-            apiKey = apiKey,
             page = page,
             releasedBefore = currentDate,
             releasedBeforeSecondary = currentDate,
@@ -66,7 +61,6 @@ class MovieRepository(
 
     fun getMoviesByGenre(genreId: String, page: Int = 1): Flow<List<Movie>> = flow {
         emit(tmdbService.discoverMovies(
-            apiKey = apiKey,
             page = page,
             releasedBefore = currentDate,
             releasedBeforeSecondary = currentDate,
@@ -77,14 +71,14 @@ class MovieRepository(
     }
 
     fun getMovieDetails(movieId: Int): Flow<Movie> = flow {
-        emit(tmdbService.getMovieDetails(movieId, apiKey))
+        emit(tmdbService.getMovieDetails(movieId))
     }
 
     fun getMovieCredits(movieId: Int): Flow<List<CastMember>> = flow {
-        emit(tmdbService.getMovieCredits(movieId, apiKey).cast)
+        emit(tmdbService.getMovieCredits(movieId).cast)
     }
 
     fun searchMovies(query: String): Flow<List<Movie>> = flow {
-        emit(tmdbService.searchMovies(query, apiKey).results)
+        emit(tmdbService.searchMovies(query).results)
     }
 }

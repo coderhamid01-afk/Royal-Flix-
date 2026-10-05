@@ -4,21 +4,39 @@ workflows:
     instance_type: mac_mini_m1
     max_build_duration: 60
     environment:
+      android_sdk:
+        - 34
+        - 34.0.0
       java: 17
     cache:
       cache_paths:
         - ~/.gradle/caches
-    triggering:
-      events:
-        - push
-      branch_patterns:
-        - pattern: '*'
-          include: true
-          source: true
     scripts:
-      - name: Make Gradle wrapper executable
-        script: chmod +x gradlew
-      - name: Build Debug APK
-        script: ./gradlew assembleDebug --stacktrace
+      - name: Locate and setup Gradle wrapper
+        script: |
+          # Check if gradlew is in a subfolder
+          if [ ! -f gradlew ]; then
+            if [ -f android/gradlew ]; then
+              cd android
+            elif [ -f Royal-Flix/gradlew ]; then
+              cd Royal-Flix
+            fi
+          fi
+
+          # If still not found, generate it dynamically
+          if [ ! -f gradlew ]; then
+            echo "gradlew not found, generating wrapper..."
+            gradle wrapper
+          fi
+
+          chmod +x gradlew
+      - name: Build Android Debug APK
+        script: |
+          if [ ! -f gradlew ] && [ -f android/gradlew ]; then
+            cd android
+          elif [ ! -f gradlew ] && [ -f Royal-Flix/gradlew ]; then
+            cd Royal-Flix
+          fi
+          ./gradlew assembleDebug --stacktrace
     artifacts:
-      - app/build/outputs/apk/**/*.apk
+      - "**/build/outputs/apk/**/*.apk"

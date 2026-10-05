@@ -4,11 +4,6 @@ workflows:
     instance_type: mac_mini_m1
     max_build_duration: 60
     environment:
-      android_sdk:
-        platforms:
-          - 34
-        build_tools:
-          - 34.0.0
       java: 17
     cache:
       cache_paths:
